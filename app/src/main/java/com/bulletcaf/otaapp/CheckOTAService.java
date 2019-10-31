@@ -12,13 +12,13 @@ import java.util.TimerTask;
 
 public class CheckOTAService extends Service {
 
-    public static final int notify = 3000;
+    public static final int notify = 30000;
     private Handler handler = new Handler();
     private Timer timer = null;
 
     @Override
     public IBinder onBind(Intent intent) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return null;
     }
 
     @Override
