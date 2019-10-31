@@ -1,4 +1,5 @@
 <resources>
+    <string name="rom_name">Bullet CAF</string>
     <string name="app_name">Updater</string>
     <string name="buildText">ROM Version:</string>
 </resources>
