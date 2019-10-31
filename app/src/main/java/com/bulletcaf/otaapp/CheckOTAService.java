@@ -47,7 +47,7 @@ public class CheckOTAService extends Service {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(CheckOTAService.this, "Service is running", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(CheckOTAService.this, "Service is running", Toast.LENGTH_SHORT).show();
                 }
             });
         }

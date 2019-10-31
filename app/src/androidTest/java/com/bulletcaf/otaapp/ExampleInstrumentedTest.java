@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.otaapp", appContext.getPackageName());
+        assertEquals("com.bulletcaf.otaapp", appContext.getPackageName());
     }
 }
