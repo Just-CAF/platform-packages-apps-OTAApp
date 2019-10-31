@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Updater</string>
+    <string name="buildText">ROM Version:</string>
+</resources>
