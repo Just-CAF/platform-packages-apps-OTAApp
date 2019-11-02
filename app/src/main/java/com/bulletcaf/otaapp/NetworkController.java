@@ -12,21 +12,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NetworkController {
-    private static List<String> getUpdateVersion() throws IOException {
-        URLConnection url;
-        url = new URL("http://167.86.75.223/test.txt").openConnection();
-        InputStream is = url.getInputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+    private String updateUrl;
+    private String updateVersion;
+
+    private ArrayList<String> getUpdateData() {
         ArrayList<String> text = new ArrayList<>();
-        String line = null;
-        while ((line = reader.readLine()) != null) // read line by line
-        {
-            text.add(line); // add line to list
+        try {
+            URLConnection url;
+            url = new URL("http://167.86.75.223/test.txt").openConnection();
+            InputStream is = url.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            String line;
+            while ((line = reader.readLine()) != null) // read line by line
+            {
+                text.add(line); // add line to list
+            }
+            is.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        is.close();
+
         return text;
     }
-    public static String getUpdate() throws IOException {
-        return getUpdateVersion().get(0);
+
+    public String getUpdate() throws IOException {
+        ArrayList<String> data = getUpdateData();
+        updateVersion = data.get(0);
+        updateUrl = data.get(1);
+        return updateVersion;
+    }
+
+    public void downloadZip() {
+        Log.i("OTADebug", "Got download call. Url"+updateUrl);
+        //TODO
     }
 }

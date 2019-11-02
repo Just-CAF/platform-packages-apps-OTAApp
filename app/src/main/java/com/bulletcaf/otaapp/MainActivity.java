@@ -7,40 +7,39 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-    TextView buildText;
-    String a;
-    @Override
+    TextView txBuild;
+    TextView txUpdate;
+    FloatingActionButton btnRefresh;
+    OTAManager om = new OTAManager();
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        buildText = findViewById(R.id.buildText);
-        buildText.setText(getString(R.string.buildText) + " " + Build.DISPLAY);
-        startService(new Intent(this, CheckOTAService.class));
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    String a = null;
-                    try {
-                        a = NetworkController.getUpdate();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    final String b = a;
+        txBuild = findViewById(R.id.buildText);
+        txUpdate = findViewById(R.id.updateText);
+        btnRefresh = findViewById(R.id.refreshButton);
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View view) {
+                                              refreshUpdate();
+                                          }
+                                      });
+        refreshUpdate();
+        //startService(new Intent(this, CheckOTAService.class));
+    }
 
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(MainActivity.this, b, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }).start();
+    private void refreshUpdate() {
+        txBuild.setText(getString(R.string.buildText) + " " + om.currentVersion);
+        txUpdate.setText(getString(R.string.updateText) + " " + om.getVersion());
     }
 }
