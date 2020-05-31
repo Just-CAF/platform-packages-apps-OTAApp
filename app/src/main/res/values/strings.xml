@@ -1,5 +1,9 @@
 <resources>
+    <string name="just_caf">Just CAF</string>
     <string name="app_name">Updater</string>
-    <string name="buildText">ROM version: %1$s</string>
+    <string name="buildText">Current version: %1$s</string>
     <string name="updateText">Update version: %1$s</string>
+    <string name="noUpdates">No updates</string>
+    <string name="changelog">Changelog</string>
+    <string name="new_update">New update:</string>
 </resources>
