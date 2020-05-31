@@ -62,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
 
         refreshUpdate();
         //startService(new Intent(this, CheckOTAService.class));
+
+        String packageName = this.getPackageName();
+        Intent launchIntent = this.getPackageManager().getLaunchIntentForPackage(packageName);
+        String className = launchIntent.getComponent().getClassName();
+
+        Log.e("APP", className);
     }
 
     public void showChangelog(View v) {
@@ -81,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void downloadUpdate(View v) {
-        Log.i("Just CAF", "Download starting");
+        Log.i("Just CAF", "ASDASDASDASDDownload starting");
         om.update();
     }
 
@@ -109,6 +115,15 @@ public class MainActivity extends AppCompatActivity {
                 txUpdateTime.setText(getString(R.string.updateText, userVersion));
                 updateView.setVisibility(View.VISIBLE);
             }
+        }
+    }
+
+    public void installUpdate(View v) {
+        File file = new File(Environment.getExternalStorageDirectory().getPath() + "/Download/update.zip");
+        try {
+            android.os.RecoverySystem.installPackage(this, file);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

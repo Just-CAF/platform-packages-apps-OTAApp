@@ -86,6 +86,15 @@
             android:layout_marginBottom="10dp"/>
 
         <include layout="@layout/update" />
+
+        <Button
+            android:id="@+id/buttonInstall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Install"
+            android:onClick="installUpdate"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="15dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

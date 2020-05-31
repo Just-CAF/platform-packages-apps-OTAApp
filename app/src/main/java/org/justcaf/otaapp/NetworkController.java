@@ -91,8 +91,9 @@ public class NetworkController {
     public void downloadZip() {
         String[] urlParts = updateUrl.split("/");
         String filename = urlParts[urlParts.length - 2];
+        String realFilename = "update.zip";
 
-        Log.e("OTADebug", "Got download call. Url" + updateUrl + " to file " + filename);
+        Log.e("OTADebug", "Got download call. Url" + updateUrl + " to file " + realFilename);
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(updateUrl));
 
@@ -100,7 +101,7 @@ public class NetworkController {
         request.setDescription("Downloading update");
         request.allowScanningByMediaScanner();
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, realFilename);
 
         if (mContext == null) {
             Log.e("NULL", "!");
