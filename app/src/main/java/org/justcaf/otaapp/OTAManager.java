@@ -1,6 +1,8 @@
 package org.justcaf.otaapp;
 
+import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -9,16 +11,21 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 public class OTAManager {
-    NetworkController nc = new NetworkController();
-    private String updateVersion;
     public String currentVersion;
 
-    DateFormat mFormat;
+    private String updateVersion;
+    private String changelog;
+    private Context mContext;
 
-    public OTAManager() {
+    DateFormat mFormat;
+    NetworkController nc;
+
+    public OTAManager(Context context) {
         mFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         mFormat.setTimeZone(TimeZone.getTimeZone("CEST"));
         currentVersion = mFormat.format(Build.TIME);
+        this.mContext = context;
+        nc = new NetworkController(mContext);
     }
 
     public String getUpdateVersion() {
@@ -44,12 +51,38 @@ public class OTAManager {
         return updateVersion;
     }
 
+    public String getChangelog() {
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                changelog = nc.getChangelog();
+            }
+        });
+
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return changelog;
+    }
+
     public void update() {
-        new Thread(new Runnable() {
+        Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 nc.downloadZip();
             }
         });
+
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

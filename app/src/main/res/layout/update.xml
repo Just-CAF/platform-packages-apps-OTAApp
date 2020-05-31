@@ -22,13 +22,15 @@
         android:id="@+id/buttonChangelog"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:text="@string/changelog" />
+        android:text="@string/changelog"
+        android:onClick="showChangelog" />
 
     <ImageButton
         android:id="@+id/buttonDownload"
         android:src="@drawable/ic_download"
         android:layout_gravity="end"
         android:layout_width="wrap_content"
-        android:layout_height="48dp" />
+        android:layout_height="48dp"
+        android:onClick="downloadUpdate" />
 
 </LinearLayout>

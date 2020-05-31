@@ -2,24 +2,39 @@ package org.justcaf.otaapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static java.lang.StrictMath.toIntExact;
 
 public class MainActivity extends AppCompatActivity {
     TextView txBuild;
     TextView txUpdate;
     TextView txUpdateTime;
+    Button btnChangelog;
     LinearLayout updateView;
     FloatingActionButton btnRefresh;
-    OTAManager om = new OTAManager();
+    OTAManager om = new OTAManager(this);
+
+    SimpleDateFormat userDate = new SimpleDateFormat("dd.MM.yyyy");
+    SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         txUpdate = findViewById(R.id.updateText);
         txUpdateTime = findViewById(R.id.updateTime);
         btnRefresh = findViewById(R.id.refreshButton);
+        btnChangelog = findViewById(R.id.buttonChangelog);
         updateView = findViewById(R.id.newUpdate);
         btnRefresh.setOnClickListener(new View.OnClickListener() {
                                           @Override
@@ -37,13 +53,39 @@ public class MainActivity extends AppCompatActivity {
                                           }
                                       });
         txUpdate.setText(R.string.noUpdates);
-        txBuild.setText(getString(R.string.buildText, om.currentVersion));
+        try {
+            txBuild.setText(getString(R.string.buildText,
+                    userDate.format(f.parse(om.currentVersion))));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         refreshUpdate();
         //startService(new Intent(this, CheckOTAService.class));
     }
 
+    public void showChangelog(View v) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        int width = displayMetrics.widthPixels;
+        int height = displayMetrics.heightPixels;
+
+        Intent intent = new Intent(this, Changelog.class);
+
+        ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
+                v, toIntExact(Math.round(width/ 2)),
+                toIntExact(Math.round(height / 2)) , 1, 1);
+
+        this.startActivity(intent, options.toBundle());
+    }
+
+    public void downloadUpdate(View v) {
+        Log.i("Just CAF", "Download starting");
+        om.update();
+    }
+
     private void refreshUpdate() {
-        SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         Date currentVersion = null;
         Date updateVersion = null;
 
@@ -56,10 +98,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (updateVersion != null && currentVersion != null) {
             if (updateVersion.after(currentVersion)) {
-                SimpleDateFormat user = new SimpleDateFormat("dd.MM.yyyy");
                 String userVersion = null;
                 try {
-                    userVersion = user.format(f.parse(om.getUpdateVersion()));
+                    userVersion = userDate.format(f.parse(om.getUpdateVersion()));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
