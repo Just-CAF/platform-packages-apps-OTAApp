@@ -35,16 +35,18 @@ public class NetworkController {
     }
 
     public String getUpdate() throws IOException {
-        String data = getUpdateData();
-        String parts = data.split(",");
+        ArrayList<String> data = getUpdateData();
 
-        updateVersion = data.get(0);
-        updateUrl = data.get(1);
+        String latest = data.get(0);
+        String[] parts = latest.split(",");
+        updateUrl = parts[2];
+        updateVersion = parts[1];
+
         return updateVersion;
     }
 
     public void downloadZip() {
-        Log.i("OTADebug", "Got download call. Url"+updateUrl);
+        Log.e("OTADebug", "Got download call. Url" + updateUrl);
         //TODO
     }
 }
