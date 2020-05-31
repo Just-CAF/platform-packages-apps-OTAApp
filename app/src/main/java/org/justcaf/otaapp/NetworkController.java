@@ -1,4 +1,4 @@
-package com.bulletcaf.otaapp;
+package org.justcaf.otaapp;
 
 import android.util.Log;
 
@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.List;
 
 public class NetworkController {
     private String updateUrl;
@@ -19,7 +18,7 @@ public class NetworkController {
         ArrayList<String> text = new ArrayList<>();
         try {
             URLConnection url;
-            url = new URL("http://167.86.75.223/test.txt").openConnection();
+            url = new URL("https://raw.githubusercontent.com/Just-CAF/releases/custom/releases.txt").openConnection();
             InputStream is = url.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             String line;
@@ -36,7 +35,9 @@ public class NetworkController {
     }
 
     public String getUpdate() throws IOException {
-        ArrayList<String> data = getUpdateData();
+        String data = getUpdateData();
+        String parts = data.split(",");
+
         updateVersion = data.get(0);
         updateUrl = data.get(1);
         return updateVersion;

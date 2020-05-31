@@ -1,4 +1,4 @@
-package com.bulletcaf.otaapp;
+package org.justcaf.otaapp;
 
 import android.os.Build;
 

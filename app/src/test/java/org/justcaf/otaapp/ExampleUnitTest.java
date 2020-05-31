@@ -1,4 +1,4 @@
-package com.bulletcaf.otaapp;
+package org.justcaf.otaapp;
 
 import org.junit.Test;
 
