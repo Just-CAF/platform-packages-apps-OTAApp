@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Updater</string>
-    <string name="buildText">ROM version:</string>
-    <string name="updateText">Update version:</string>
+    <string name="buildText">ROM version: %1$s</string>
+    <string name="updateText">Update version: %1$s</string>
 </resources>

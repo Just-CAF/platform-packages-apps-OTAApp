@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshUpdate() {
-        txBuild.setText(getString(R.string.buildText) + " " + om.currentVersion);
-        txUpdate.setText(getString(R.string.updateText) + " " + om.getVersion());
+        txBuild.setText(getString(R.string.buildText, om.currentVersion));
+        txUpdate.setText(getString(R.string.updateText, om.getVersion()));
     }
 }
