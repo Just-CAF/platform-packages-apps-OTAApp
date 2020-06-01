@@ -9,9 +9,9 @@ public class Restarter extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.startForegroundService(new Intent(context, CheckOTAService.class));
+            //context.startForegroundService(new Intent(context, CheckOTAService.class));
         } else {
-            context.startService(new Intent(context, CheckOTAService.class));
+            //context.startService(new Intent(context, CheckOTAService.class));
         }
     }
 }
