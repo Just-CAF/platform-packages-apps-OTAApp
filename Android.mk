@@ -17,5 +17,14 @@ LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/app/src/main/res
 LOCAL_REQUIRED_MODULES := privapp_whitelist_org.justcaf.otaapp.xml
 
 include $(BUILD_PACKAGE)
+
 include $(CLEAR_VARS)
-include $(BUILD_MULTI_PREBUILT)
+
+LOCAL_MODULE := privapp_whitelist_org.justcaf.otaapp.xml
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/permissions
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+
+include $(BUILD_PREBUILT)
+include $(CLEAR_VARS)
