@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void installUpdate(View v) {
-        File file = new File(Constants.FILE_DOWNLOAD_DIRECTORY +
+        File file = new File(Constants.FILE_DOWNLOAD_DIRECTORY + "/" +
                                 Constants.FILE_DOWNLOAD_NAME);
 
         try {
