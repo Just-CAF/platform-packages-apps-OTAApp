@@ -2,12 +2,12 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.justcaf.otaapp"
-    android:sharedUserId="android.uid.system">
+    package="org.justcaf.otaapp">
 
     <uses-permission android:name="android.permission.RECOVERY" />
     <uses-permission android:name="android.permission.REBOOT" />
     <uses-permission android:name="android.permission.ACCESS_CACHE_FILESYSTEM" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -23,10 +23,10 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".Changelog"
+            android:name=".ui.Changelog"
             android:theme="@android:style/Theme.Dialog" />
 
-        <service
+        <!--<service
             android:name=".CheckOTAService"
             android:enabled="true"
             android:exported="true" />
@@ -39,9 +39,9 @@
                 <action android:name="restartservice" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

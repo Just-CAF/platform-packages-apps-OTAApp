@@ -26,7 +26,7 @@
             android:name=".ui.Changelog"
             android:theme="@android:style/Theme.Dialog" />
 
-        <service
+        <!--<service
             android:name=".CheckOTAService"
             android:enabled="true"
             android:exported="true" />
@@ -39,7 +39,7 @@
                 <action android:name="restartservice" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
         <activity android:name=".ui.MainActivity">
             <intent-filter>

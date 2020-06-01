@@ -3,7 +3,7 @@
 # CHANGE THESE FOR YOUR APP
 app_package="org.justcaf.otaapp"
 dir_app_name="otaapp"
-MAIN_ACTIVITY="MainActivity"
+MAIN_ACTIVITY="ui.MainActivity"
 
 ADB="adb" # how you execute adb
 ADB_SH="$ADB shell su -c" # this script assumes using `adb root`. for `adb su` see `Caveats`
