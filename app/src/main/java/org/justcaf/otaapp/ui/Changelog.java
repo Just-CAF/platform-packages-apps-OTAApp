@@ -1,4 +1,4 @@
-package org.justcaf.otaapp;
+package org.justcaf.otaapp.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import org.justcaf.otaapp.OTAManager;
+import org.justcaf.otaapp.R;
 
 public class Changelog extends Activity {
 

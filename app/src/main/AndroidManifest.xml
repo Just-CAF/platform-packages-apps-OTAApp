@@ -2,8 +2,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.justcaf.otaapp"
-    android:sharedUserId="android.uid.system">
+    package="org.justcaf.otaapp">
 
     <uses-permission android:name="android.permission.RECOVERY" />
     <uses-permission android:name="android.permission.REBOOT" />
@@ -23,7 +22,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".Changelog"
+            android:name=".ui.Changelog"
             android:theme="@android:style/Theme.Dialog" />
 
         <service
@@ -41,7 +40,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

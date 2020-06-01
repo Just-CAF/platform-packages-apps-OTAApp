@@ -1,4 +1,4 @@
-package org.justcaf.otaapp;
+package org.justcaf.otaapp.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +16,11 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.justcaf.otaapp.ui.Changelog;
+import org.justcaf.otaapp.OTAManager;
+import org.justcaf.otaapp.R;
 import org.justcaf.otaapp.misc.Constants;
+import org.justcaf.otaapp.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Utils.setUpdateInfoURL();
+        Log.e(Constants.TAG, Constants.OTA_DATA_URL);
+
         txBuild = findViewById(R.id.buildText);
         txUpdate = findViewById(R.id.updateText);
         txUpdateTime = findViewById(R.id.updateTime);

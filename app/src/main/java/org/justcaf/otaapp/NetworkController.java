@@ -110,6 +110,5 @@ public class NetworkController {
 
         DownloadManager manager = (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
         manager.enqueue(request);
-
     }
 }
