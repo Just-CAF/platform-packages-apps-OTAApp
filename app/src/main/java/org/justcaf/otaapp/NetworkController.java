@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
+import org.justcaf.otaapp.misc.Constants;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +32,7 @@ public class NetworkController {
         ArrayList<String> text = new ArrayList<>();
         try {
             URLConnection url;
-            url = new URL("https://raw.githubusercontent.com/Just-CAF/releases/custom/releases.txt").openConnection();
+            url = new URL(Constants.OTA_DATA_URL).openConnection();
             InputStream is = url.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             String line;
@@ -70,7 +72,9 @@ public class NetworkController {
             }
 
             URLConnection url;
-            url = new URL("https://raw.githubusercontent.com/Just-CAF/releases/custom/changelog_" + changelog_date_string + ".txt").openConnection();
+            url = new URL("https://raw.githubusercontent.com/Just-CAF/releases/custom/changelog_"
+                    + changelog_date_string + ".txt").openConnection();
+
             Log.i("URL", url.toString());
             InputStream is = url.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
@@ -91,9 +95,9 @@ public class NetworkController {
     public void downloadZip() {
         String[] urlParts = updateUrl.split("/");
         String filename = urlParts[urlParts.length - 2];
-        String realFilename = "update.zip";
 
-        Log.e("OTADebug", "Got download call. Url" + updateUrl + " to file " + realFilename);
+        Log.e("OTADebug", "Got download call. Url" + updateUrl + " to file "
+                + Constants.FILE_DOWNLOAD_NAME);
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(updateUrl));
 
@@ -101,11 +105,8 @@ public class NetworkController {
         request.setDescription("Downloading update");
         request.allowScanningByMediaScanner();
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, realFilename);
-
-        if (mContext == null) {
-            Log.e("NULL", "!");
-        }
+        request.setDestinationInExternalPublicDir(Constants.FILE_DOWNLOAD_DIRECTORY,
+                Constants.FILE_DOWNLOAD_NAME);
 
         DownloadManager manager = (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
         manager.enqueue(request);

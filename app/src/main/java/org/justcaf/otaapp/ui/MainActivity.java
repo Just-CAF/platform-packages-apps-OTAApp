@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.justcaf.otaapp.misc.Constants;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -119,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void installUpdate(View v) {
-        File file = new File(Environment.getExternalStorageDirectory().getPath() + "/Download/update.zip");
+        File file = new File(Constants.FILE_DOWNLOAD_DIRECTORY +
+                                Constants.FILE_DOWNLOAD_NAME);
         try {
             android.os.RecoverySystem.installPackage(this, file);
         } catch (IOException e) {
