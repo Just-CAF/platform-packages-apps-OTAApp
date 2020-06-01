@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Utils.setUpdateInfoURL();
-        Log.e(Constants.TAG, Constants.OTA_DATA_URL);
+        Log.i(Constants.TAG, "OTA data URL: " + Constants.OTA_DATA_URL);
 
         txBuild = findViewById(R.id.buildText);
         txUpdate = findViewById(R.id.updateText);
@@ -72,12 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
         refreshUpdate();
         //startService(new Intent(this, CheckOTAService.class));
-
-        String packageName = this.getPackageName();
-        Intent launchIntent = this.getPackageManager().getLaunchIntentForPackage(packageName);
-        String className = launchIntent.getComponent().getClassName();
-
-        Log.e("APP", className);
     }
 
     public void showChangelog(View v) {
@@ -97,8 +92,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void downloadUpdate(View v) {
-        Log.i("Just CAF", "ASDASDASDASDDownload starting");
         om.update();
+        Toast.makeText(this, getString(R.string.downloading),
+                Toast.LENGTH_SHORT).show();
     }
 
     private void refreshUpdate() {
@@ -131,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
     public void installUpdate(View v) {
         File file = new File(Constants.FILE_DOWNLOAD_DIRECTORY +
                                 Constants.FILE_DOWNLOAD_NAME);
+
         try {
             android.os.RecoverySystem.installPackage(this, file);
         } catch (IOException e) {

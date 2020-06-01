@@ -94,7 +94,8 @@
             android:text="Install"
             android:onClick="installUpdate"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="15dp" />
+            android:layout_marginEnd="15dp"
+            android:enabled="false"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,17 +1,22 @@
 package org.justcaf.otaapp;
 
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
 import org.justcaf.otaapp.misc.Constants;
+import org.justcaf.otaapp.utils.Utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
@@ -72,7 +77,7 @@ public class NetworkController {
             }
 
             URLConnection url;
-            url = new URL("https://raw.githubusercontent.com/Just-CAF/releases/custom/changelog_"
+            url = new URL(Constants.CHANGELOG_URL_PREFIX + "/changelog_"
                     + changelog_date_string + ".txt").openConnection();
 
             Log.i("URL", url.toString());
@@ -93,22 +98,61 @@ public class NetworkController {
     }
 
     public void downloadZip() {
-        String[] urlParts = updateUrl.split("/");
-        String filename = urlParts[urlParts.length - 2];
 
-        Log.e("OTADebug", "Got download call. Url" + updateUrl + " to file "
+        Log.e("OTADebug", "Got download call. Url " + updateUrl + " to file "
                 + Constants.FILE_DOWNLOAD_NAME);
 
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(updateUrl));
+        new downloadFile((Activity) mContext).execute();
+    }
 
-        request.setTitle("Just CAF: " + filename);
-        request.setDescription("Downloading update");
-        request.allowScanningByMediaScanner();
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalPublicDir(Constants.FILE_DOWNLOAD_DIRECTORY,
-                Constants.FILE_DOWNLOAD_NAME);
+    private final class downloadFile extends AsyncTask<Void, Void, Void> {
+        WeakReference<Activity> mWeakActivity;
 
-        DownloadManager manager = (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
-        manager.enqueue(request);
+        public downloadFile(Activity activity) {
+            mWeakActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            Utils.removeExistingFile(
+                    Environment.getExternalStoragePublicDirectory(Constants.FILE_DOWNLOAD_DIRECTORY).toString()
+                            + "/" + Constants.FILE_DOWNLOAD_NAME);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            String[] urlParts = updateUrl.split("/");
+            String filename = urlParts[urlParts.length - 2];
+
+            DownloadManager.Request request = new DownloadManager.Request(
+                    Uri.parse(updateUrl));
+
+            request.setDescription("Downloading update");
+            request.allowScanningByMediaScanner();
+            request.setNotificationVisibility(
+                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+            request.setDestinationInExternalPublicDir(Constants.FILE_DOWNLOAD_DIRECTORY,
+                    Constants.FILE_DOWNLOAD_NAME);
+
+            DownloadManager manager = (DownloadManager) mContext.getSystemService(
+                    Context.DOWNLOAD_SERVICE);
+
+            //Log.e(Constants.TAG, manager.COLUMN_LOCAL_URI);
+
+
+            manager.enqueue(request);
+
+            return null;
+        }
+
+        // Progressupdate?
+
+        @Override
+        protected void onPostExecute(Void param) {
+            Log.i(Constants.TAG, "Downloaded");
+            Activity activity = mWeakActivity.get();
+            activity.findViewById(R.id.buttonInstall).setEnabled(true);
+        }
     }
 }
