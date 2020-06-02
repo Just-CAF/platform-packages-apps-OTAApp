@@ -4,7 +4,7 @@ import android.os.Environment;
 
 public class Constants {
     public static String TAG = "JUSTCAF";
-    public static String DEV_UPDATE_DATA = "ro.update.data.url";
+    public static String DEV_UPDATE_DATA = "justcaf.update.data.url";
 
     public static String FILE_DOWNLOAD_DIRECTORY = Environment.DIRECTORY_DOWNLOADS;
     public static String FILE_DOWNLOAD_NAME = "update.zip";
