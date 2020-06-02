@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
+import org.justcaf.otaapp.misc.Constants;
+import org.justcaf.otaapp.utils.Utils;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -71,6 +74,8 @@ public class OTAManager {
     }
 
     public void update() {
+        Utils.removeExistingFile();
+
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {

@@ -102,57 +102,25 @@ public class NetworkController {
         Log.e("OTADebug", "Got download call. Url " + updateUrl + " to file "
                 + Constants.FILE_DOWNLOAD_NAME);
 
-        new downloadFile((Activity) mContext).execute();
-    }
+        String[] urlParts = updateUrl.split("/");
+        String filename = urlParts[urlParts.length - 2];
 
-    private final class downloadFile extends AsyncTask<Void, Void, Void> {
-        WeakReference<Activity> mWeakActivity;
+        DownloadManager.Request request = new DownloadManager.Request(
+                Uri.parse(updateUrl));
 
-        public downloadFile(Activity activity) {
-            mWeakActivity = new WeakReference<>(activity);
-        }
+        request.setDescription("Downloading update");
+        request.allowScanningByMediaScanner();
+        request.setNotificationVisibility(
+                DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
-        @Override
-        protected void onPreExecute() {
-            Utils.removeExistingFile(
-                    Environment.getExternalStoragePublicDirectory(Constants.FILE_DOWNLOAD_DIRECTORY).toString()
-                            + "/" + Constants.FILE_DOWNLOAD_NAME);
-        }
+        request.setDestinationInExternalPublicDir(Constants.FILE_DOWNLOAD_ENV,
+                Constants.FILE_DOWNLOAD_NAME);
 
-        @Override
-        protected Void doInBackground(Void... params) {
-            String[] urlParts = updateUrl.split("/");
-            String filename = urlParts[urlParts.length - 2];
+        DownloadManager manager = (DownloadManager) mContext.getSystemService(
+                Context.DOWNLOAD_SERVICE);
 
-            DownloadManager.Request request = new DownloadManager.Request(
-                    Uri.parse(updateUrl));
+        //Log.e(Constants.TAG, manager.COLUMN_LOCAL_URI);
 
-            request.setDescription("Downloading update");
-            request.allowScanningByMediaScanner();
-            request.setNotificationVisibility(
-                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-
-            request.setDestinationInExternalPublicDir(Constants.FILE_DOWNLOAD_DIRECTORY,
-                    Constants.FILE_DOWNLOAD_NAME);
-
-            DownloadManager manager = (DownloadManager) mContext.getSystemService(
-                    Context.DOWNLOAD_SERVICE);
-
-            //Log.e(Constants.TAG, manager.COLUMN_LOCAL_URI);
-
-
-            manager.enqueue(request);
-
-            return null;
-        }
-
-        // Progressupdate?
-
-        @Override
-        protected void onPostExecute(Void param) {
-            Log.i(Constants.TAG, "Downloaded");
-            Activity activity = mWeakActivity.get();
-            activity.findViewById(R.id.buttonInstall).setEnabled(true);
-        }
+        manager.enqueue(request);
     }
 }

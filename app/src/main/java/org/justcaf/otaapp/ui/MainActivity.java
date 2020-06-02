@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
         Date currentVersion = null;
         Date updateVersion = null;
 
+        Utils.setUpdateInfoURL();
+
         try {
             currentVersion = f.parse(om.currentVersion);
             updateVersion = f.parse(om.getUpdateVersion());
